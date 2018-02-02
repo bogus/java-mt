@@ -1,20 +1,27 @@
-package net.bogus.blockingqueue;
+package net.bogus.rwlock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 	
 	public static void main(String[] args) {
 		
-		BlockingQueue<Integer> queue = new BlockingQueue<Integer>(10);
+		List<Integer> list = new ArrayList();
+		ReadWriteLock lock = new ReadWriteLock();
 		
 		Thread t1 = new Thread(() -> {
 		
 			for (int i = 0; i < 10; i++) {
 				try {
-					queue.put(i);
+					lock.writeLock();
+					list.add(i);
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+					lock.writeUnlock();
 				}
 			}
 			
@@ -23,10 +30,15 @@ public class Main {
 		Thread t2 = new Thread(() -> {
 			for (int i = 0; i < 10; i++) {
 				try {
-					System.out.println(queue.take());
+					lock.readLock();
+					for (Integer val : list) {
+						System.out.println("I = " + val);
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+					lock.readUnlock();
 				}
 			}
 		});
