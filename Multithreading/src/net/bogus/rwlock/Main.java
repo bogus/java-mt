@@ -7,7 +7,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		List<Integer> list = new ArrayList();
+		List<Integer> list = new ArrayList<>();
+		//ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+		//BasicReadWriteLock lock = new BasicReadWriteLock();
 		ReadWriteLock lock = new ReadWriteLock();
 		
 		Thread t1 = new Thread(() -> {
@@ -16,7 +18,7 @@ public class Main {
 				try {
 					lock.writeLock();
 					list.add(i);
-					Thread.sleep(1000);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -31,9 +33,11 @@ public class Main {
 			for (int i = 0; i < 10; i++) {
 				try {
 					lock.readLock();
+					System.out.print("I =");
 					for (Integer val : list) {
-						System.out.println("I = " + val);
+						System.out.print(" " + val);
 					}
+					System.out.println(" ");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -43,9 +47,8 @@ public class Main {
 			}
 		});
 		
-		
-		t1.start();
 		t2.start();
+		t1.start();
 		
 		try {
 			t1.join();
