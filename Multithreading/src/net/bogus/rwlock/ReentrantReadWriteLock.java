@@ -13,7 +13,7 @@ public class ReentrantReadWriteLock {
 		if (isWriter(thread)) {
 			return true;
 		}
-		if (hasWriter(thread)) {
+		if (hasWriter()) {
 			return false;
 		}
 		if (isReader(thread)) {
@@ -32,7 +32,7 @@ public class ReentrantReadWriteLock {
 		if (hasReaders()) {
 			return false;
 		}
-		if (writerThread == null) {
+		if (!hasWriter()) {
 			return true;
 		}
 		if (!isWriter(thread)) {
@@ -57,7 +57,7 @@ public class ReentrantReadWriteLock {
 		return thread != null && thread == writerThread;
 	}
 	
-	public boolean hasWriter(Thread thread) {
+	public boolean hasWriter() {
 		return writerThread != null;
 	}
 	
