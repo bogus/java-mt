@@ -1,0 +1,47 @@
+API Endpoints
+
+Search rooms
+GET 
+/rooms/?number_of_guests=<num>&number_of_rooms=<num>&start_date=<date>&end_date=<date>&location=<zip>
+				&radius=<miles>&room_feature_key1=<val1>&facility_feature_key1=<val1>&....
+				&page=1&page_size=12
+
+Update room information:
+PUT
+/rooms/
+
+Add new room:
+POST
+/rooms/
+
+Remove room:
+DELETE
+/rooms/
+
+New reservation
+POST 
+/reservation/
+
+{
+"customer_id": "123",
+"rooms":[
+	{ "room_id": 123 }
+	{ "room_id": 124 }
+],
+"start_date":"01-01-2018",
+"end_date":"01-05-2018",
+"number_of_guests":5
+}
+
+Update reservation
+PUT
+/reservation/
+
+Get all reservations
+GET
+/reservation/all
+
+Get a specific reservation
+/reservation/<id>			
+
+
